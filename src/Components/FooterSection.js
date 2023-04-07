@@ -10,7 +10,7 @@ padding-inline: 10%;
 padding-block: 1%;
 background-color:#cdc9c9;
 color: black;
-font-size: 1rem;
+font-size: 0.85rem;
 font-family: 'Roboto', sans-serif;
 text-align: center;
 `

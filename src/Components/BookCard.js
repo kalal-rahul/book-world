@@ -6,16 +6,16 @@ import { PrimaryBtn, SecondaryBtn } from "./Styles/GlobalStyle";
 
 
 const CardContainer = styled.div`
-min-width: 22%;
-min-height: 42%;
-max-width: 22%;
-max-height: 42%;
+width: 200px;
+height: 270px;
+max-width: 200px;
+max-height:270px;
+box-sizing: border-box;
 border: 1px solid #a3a3a3;
 border-radius: 10px;
 display: inline-block;
 margin: 20px;
 text-align: center;
-overflow: hidden;
 padding-block: 2%;
 
 &:hover{
@@ -25,14 +25,8 @@ padding-block: 2%;
 }
 `;
 const ImageContainer = styled.div`
-/* min-width: 120px;
-min-height: 180px;
-max-width: 120px;
-max-height: 180px; */
-min-width: 80%;
-min-height: 180px;
-max-width: 120px;
-max-height: 180px;
+width: 110px;
+height: 160px;
 position: relative;
 left: 50%;
 transform: translateX(-50%);
@@ -42,8 +36,8 @@ background-size:cover;
 `;
 
 const BookTitle = styled.h4`
-font-family: 'Poppins', sans-serif;
-font-size: 0.8rem;
+font-family: 'Roboto', sans-serif;
+font-size: 0.85rem;
 text-align: center;
 white-space: nowrap;
 width :70% ;
@@ -55,7 +49,7 @@ margin-left: 12%;
 `;
 
 const Author = styled.h5`
-font-family: 'Poppins', sans-serif;
+font-family: 'Roboto', sans-serif;
 font-size: 0.7rem;
 color:#676767;
 text-align: center;
@@ -80,7 +74,7 @@ const BookCard = () => {
     return (
         <CardContainer>
             <BookDetailsModal/>
-            <ImageContainer />
+            <ImageContainer/>
             <BookTitle>
                 Destined for You Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus nostrum debitis non consequatur iure labore quod qui animi suscipit molestiae modi iusto, eius saepe harum dignissimos doloribus est eos repellat.
             </BookTitle>

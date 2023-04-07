@@ -25,6 +25,7 @@ overflow: hidden;
 scroll-behavior: smooth;
 border-block: 1px solid #d1d1d1;
 border-radius: 10%;
+box-shadow: 0 0 10px grey;
 `;
 
 const PrevBtn = styled.button`

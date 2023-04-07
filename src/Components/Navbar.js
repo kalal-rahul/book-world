@@ -8,7 +8,7 @@ import MyCartLink from './MUI/MyCartLink';
 import Button from '@mui/material/Button';
 import { fontSize } from '@mui/system';
 import MyAccountLink from './MyAccountLink';
-import SearchBookLink from './SearchBooks';
+import SearchBookLink from './SearchBookLink';
 import { Categories } from './Categories';
 
 
