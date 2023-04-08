@@ -12,7 +12,7 @@ padding-inline: 40px;
 min-height: 300px;
 max-height:380px ;
 max-width: 80%;
-margin-left: 7%;
+margin-left: 10%;
 `
 
 const CardWrapper = styled.div`
@@ -30,8 +30,8 @@ box-shadow: 0 0 10px grey;
 
 const PrevBtn = styled.button`
 position: absolute;
-top: 50%;
-left: 5%;
+top: 45%;
+left: 4%;
 z-index: 2;
 background-color: transparent;
 border-radius: 20px;
@@ -47,7 +47,7 @@ padding: 5px;
 
 const NextBtn = styled.button`
 position: absolute;
-top:50%;
+top:45%;
 right: 4%;
 z-index: 2;
 background-color: transparent;

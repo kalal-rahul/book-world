@@ -123,7 +123,8 @@ top: 1%;
 const TableContainer = styled.table`
 border-collapse: collapse;
 text-align: left;
-font-family: 'Roboto', sans-serif;
+/* font-family: 'Roboto', sans-serif; */
+font-family: monospace;
 border-radius: 5px;
 position: absolute;
 top: 55%;
@@ -160,7 +161,7 @@ export const BookDetailsModal = () => {
                     <TableContainer>
                         <tr>
                             <th>
-                                Title:
+                                Title
                             </th>
                             <td>
                                 Book Book Book Book 
@@ -168,7 +169,7 @@ export const BookDetailsModal = () => {
                         </tr>
                         <tr>
                             <th>
-                                Author:
+                                Author
                             </th>
                             <td>
                                 Sarah Khan
@@ -176,7 +177,7 @@ export const BookDetailsModal = () => {
                         </tr>
                         <tr>
                             <th>
-                                Length:
+                                Length
                             </th>
                             <td>
                                 119 pages
@@ -184,7 +185,7 @@ export const BookDetailsModal = () => {
                         </tr>
                         <tr>
                             <th>
-                                ISBN:
+                                ISBN
                             </th>
                             <td>
                                 1023T01AI17
@@ -192,7 +193,7 @@ export const BookDetailsModal = () => {
                         </tr>
                         <tr>
                             <th>
-                                Price:
+                                Price
                             </th>
                             <td>
                                 $ 789

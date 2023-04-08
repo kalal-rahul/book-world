@@ -3,11 +3,7 @@ import NorthIcon from '@mui/icons-material/North';
 import { ColumnFlexContainer } from "./Styles/GlobalStyle";
 import * as Scroll from 'react-scroll';
 
-
-
-export const MoveToTop = () => {
-
-const MoveToTop = styled(ColumnFlexContainer)`
+const MoveToTopContainer = styled(ColumnFlexContainer)`
 font-family: 'Roboto', sans-serif;
 margin-block:2.5%;
 
@@ -20,10 +16,11 @@ margin-block:2.5%;
 `;
 
 
+export const MoveToTop = () => {
     return (
-        <MoveToTop onClick={() => { Scroll.animateScroll.scrollToTop(); }}>
+        <MoveToTopContainer onClick={() => { Scroll.animateScroll.scrollToTop(); }}>
             <NorthIcon />
             Move to top
-        </MoveToTop>
+        </MoveToTopContainer>
     );
 }; 

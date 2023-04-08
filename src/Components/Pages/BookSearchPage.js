@@ -168,7 +168,7 @@ export const BookSearchPage = () => {
                         <label for ="E-Book" >Some Label</label>
                     </CheckBoxContainer>
                     </FilterCheckBox>
-                    <Button variant="contained" style={{ fontSize: "0.6rem" , backgroundColor:"#e35555"}} > Apply Filter </Button>
+                    <Button variant="contained" style={{ fontSize: "0.6rem" , backgroundColor:"#ff8f24"}} > Apply Filter </Button>
                 </RightSectionConatiner>
             </SearchPageContainer>
             <MoveToTop/>
