@@ -20,6 +20,9 @@ z-index: 8;
 &::backdrop {
     backdrop-filter:blur(5px)
 }
+@media (max-width:520px){
+width:85%;
+}
 `;
 
 const ContentContainer = styled(RowFlexContainer)`
@@ -116,6 +119,12 @@ background: url(${props => props.imgLink});
 background-repeat: no-repeat;
 background-size:cover;
 border: 1px solid green;
+
+@media (max-width:520px){
+height: 45%;
+width: 85%;
+}
+
 `;
 
 const BookTitleContainer = styled.div`

@@ -1,7 +1,8 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { GlobalStateContext } from "../../App";
 import { CartItem } from "../CartItem";
+import { FooterSection } from "../FooterSection";
 import { Container, RowFlexContainer } from "../Styles/GlobalStyle";
 import { NoBookMsg } from "./BookSearchPage";
 
@@ -14,6 +15,30 @@ border-radius: 15px;
 position: fixed;
 top: 30%;
 right: 7%;
+
+@media(max-width:520px) {
+display: none;
+}
+`;
+const RightSectionConatinerMobile = styled.div`
+width: 25%;
+height: 300px;
+border: 1px solid grey;
+box-shadow: grey 0px 0px 5px;
+border-radius: 15px;
+position: fixed;
+top: 30%;
+right: 7%;
+display: none;
+
+@media(max-width:520px) {
+display: block;
+position: relative;
+bottom: 0px;
+width: 85%;
+height: 220px;
+margin-left: 60px;
+}
 `;
 
 const OrderSummaryHead = styled.div`
@@ -115,40 +140,163 @@ width: 55%;
 /* border:  1px solid grey; */
 margin-left: 15%;
 padding-left: 5%;
+
+@media(max-width:520px) {
+    width: 85%;
+    margin-inline: 10%;
+}
 `;
 
 
 export const MyCartPage = () => {
     const { cart, setCart } = useContext(GlobalStateContext);
 
+    const [totalCost, setTotalCost] = useState(0);
+    const [discount, setDiscount] = useState(0);
+    const [amtPay, setAmtPay] = useState(0);
+
+    const [quantityChange, setQuantityChange] = useState(0);
+
+    const handleMakePayment = () => {
+        setCart([]);
+        setTotalCost(0);
+        setDiscount(0);
+        setAmtPay(0);
+        alert("Congratulations your order has been placed!\nDetails are shared to your email ID");
+    };
+
+    const handleCancelOrder = () => {
+        setCart([]);
+        setTotalCost(0);
+        setDiscount(0);
+        setAmtPay(0);
+        alert("Your order has been cancelled...\nDetails are shared to your email ID");
+    };
+
+    useEffect(() => {
+
+        // alert("Calculating Bill");
+        let total = 0;
+        let disc = 0;
+        let totalAmt = 0;
+
+        cart.map((eachBookData) => {
+            // console.log(eachBookData.cost);
+            total += eachBookData.cost;
+        });
+
+        total = Math.trunc(total);
+        disc = Math.trunc(total * 0.10);
+        totalAmt = Math.trunc(total - disc);
+        console.log("tc " + total + " disc " + disc + " totalAmt " + totalAmt);
+        setTotalCost(total);
+        setDiscount(disc);
+        setAmtPay(totalAmt);
+
+    }, [cart]); //This is used for the first time when cart is added.
+
+    useEffect(() => {
+        // alert("Calculating Quantity");
+
+        //This condition is to avoid computation for the first time when item is added to cart 
+        if (quantityChange !== 0) {
+            let total = Math.trunc(totalCost + quantityChange);
+            let disc = Math.trunc(total * 0.10);
+            let totalAmt = Math.trunc(total - disc);
+            console.log("tc " + total + " disc " + disc + " totalAmt " + totalAmt);
+            setTotalCost(total);
+            setDiscount(disc);
+            setAmtPay(totalAmt);
+        }
+
+    }, [quantityChange]); // Whenever there is change in quantity of individual item
+
     return (
-        <Container>
-            <CartPageContainer>
-                <h2 style={{ fontWeight: "400", paddingLeft: "20%" }}>Cart Items</h2>
-                {
-                    //TODO Length < 1
-                    (cart.length < 1) &&
-                    <NoBookMsg>
-                        <h2>No items to display...</h2>
-                        <h2>Add items to cart to show here.</h2>
-                    </NoBookMsg>
-                }
-                <LeftSectionContainer>
+        <>
+            <Container>
+                <CartPageContainer>
+                    <h2 style={{ fontWeight: "400", paddingLeft: "20%" }}>Cart Items</h2>
+                    {
+                        //TODO Length < 1
+                        (cart.length < 1) &&
+                        <NoBookMsg>
+                            <h2>No items to display...</h2>
+                            <h2>Add items to cart to show here.</h2>
+                        </NoBookMsg>
+                    }
+                    <LeftSectionContainer>
+
+                        {
+                            cart.map((eachBookData) => {
+                                return (
+                                    <CartItem
+                                        key={eachBookData.id}
+                                        bookData={eachBookData}
+                                        setQuantityChange={setQuantityChange}
+                                        quantityChange={quantityChange}
+                                    />
+                                );
+                            }
+                            )
+                        }
+
+                    </LeftSectionContainer>
 
                     {
-                        cart.map((eachBookData) => {
-                            return (
-                                <CartItem
-                                    key={eachBookData.id}
-                                    bookData={eachBookData} />
-                            );
-                        }
-                        )
+                        (cart.length >= 1) &&
+                        <RightSectionConatiner>
+                            <OrderSummaryHead>
+                                <h4>ORDER SUMMARY</h4>
+                            </OrderSummaryHead>
+                            <PriceContainer>
+                                <table>
+                                    <tr>
+                                        <th>
+                                            Total Cost
+                                        </th>
+                                        <td>
+                                            &#8377; {totalCost}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Discount
+                                        </th>
+                                        <td>
+                                            &#8377; {discount}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Shipping
+                                        </th>
+                                        <td>
+                                            Free!
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            AMOUNT PAYABLE
+                                        </th>
+                                        <td>
+                                            &#8377; {amtPay}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </PriceContainer>
+
+                            <ButtonContainer>
+                                <PaymentBtn onClick={handleMakePayment} >Make Payment</PaymentBtn>
+                                <CanceltBtn onClick={handleCancelOrder} >Cancel Order</CanceltBtn>
+                            </ButtonContainer>
+                        </RightSectionConatiner>
                     }
 
-                </LeftSectionContainer>
+                </CartPageContainer>
 
-                <RightSectionConatiner>
+                {
+                    (cart.length >= 1) &&
+                    <RightSectionConatinerMobile>
                     <OrderSummaryHead>
                         <h4>ORDER SUMMARY</h4>
                     </OrderSummaryHead>
@@ -159,7 +307,7 @@ export const MyCartPage = () => {
                                     Total Cost
                                 </th>
                                 <td>
-                                    $ 982
+                                    &#8377; {totalCost}
                                 </td>
                             </tr>
                             <tr>
@@ -167,7 +315,7 @@ export const MyCartPage = () => {
                                     Discount
                                 </th>
                                 <td>
-                                    $ 182
+                                    &#8377; {discount}
                                 </td>
                             </tr>
                             <tr>
@@ -183,18 +331,22 @@ export const MyCartPage = () => {
                                     AMOUNT PAYABLE
                                 </th>
                                 <td>
-                                    $ 800
+                                    &#8377; {amtPay}
                                 </td>
                             </tr>
                         </table>
                     </PriceContainer>
 
                     <ButtonContainer>
-                        <PaymentBtn>Make Payment</PaymentBtn>
-                        <CanceltBtn>Cancel Order</CanceltBtn>
+                        <PaymentBtn onClick={handleMakePayment}>Make Payment</PaymentBtn>
+                        <CanceltBtn onClick={handleCancelOrder}>Cancel Order</CanceltBtn>
                     </ButtonContainer>
-                </RightSectionConatiner>
-            </CartPageContainer>
-        </Container>
+                </RightSectionConatinerMobile>
+                }
+                
+            </Container>
+            <FooterSection />
+        </>
     );
+
 };

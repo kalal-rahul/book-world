@@ -1,4 +1,4 @@
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import HomeIcon from '@mui/icons-material/Home';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { RowFlexContainer } from './Styles/GlobalStyle';
@@ -10,12 +10,12 @@ justify-content: center;
 gap:2%;
 `;
 
-export default function MyAccountLink(props) {
+export default function HomePageLink(props) {
     return (
-        <Link>
+        <Link to="/">
             <MyAccLinkContainer>
-                <AccountCircleIcon color="action" />
-                My Account
+                <HomeIcon color="action" />
+                Home
             </MyAccLinkContainer >
         </Link>
     );

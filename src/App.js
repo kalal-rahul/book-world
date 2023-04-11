@@ -34,7 +34,6 @@ function App() {
           />
         </Routes>
       </Router>
-      <FooterSection />
     </GlobalStateContext.Provider>
   );
 }

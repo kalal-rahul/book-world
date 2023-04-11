@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import Axios from 'axios';
 import { useEffect, useState } from 'react';
 import { API_KEY } from '../../App';
+import { economicsCategoryItems, engineeringCategoryItems, fictionCategoryItems, medicalCategoryItems, philosophyCategoryItems, scienceCategoryItems } from '../Data/CategoryData';
+import { FooterSection } from '../FooterSection';
 
 
 
@@ -22,12 +24,12 @@ justify-content: flex-start;
 
 export const HomePage = () => {
 
-  const [scienceCategoryData, setScienceCategoryData] = useState([]);
-  const [fictionCategoryData, setFictionCategoryData] = useState([]);
-  const [engineeringCategoryData, setEngineeringCategoryData] = useState([]);
-  const [economicsCategoryData, setEconomicsCategoryData] = useState([]);
-  const [medicalCategoryData, setMedicalCategoryData] = useState([]);
-  const [philosophyCategoryData, setPhilosophyCategoryData] = useState([]);
+  const [scienceCategoryData, setScienceCategoryData] = useState(scienceCategoryItems);
+  const [fictionCategoryData, setFictionCategoryData] = useState(fictionCategoryItems);
+  const [engineeringCategoryData, setEngineeringCategoryData] = useState(engineeringCategoryItems);
+  const [economicsCategoryData, setEconomicsCategoryData] = useState(economicsCategoryItems);
+  const [medicalCategoryData, setMedicalCategoryData] = useState(medicalCategoryItems);
+  const [philosophyCategoryData, setPhilosophyCategoryData] = useState(philosophyCategoryItems);
 
 
   async function getScienceCategoryData() {
@@ -110,68 +112,71 @@ export const HomePage = () => {
 
 
   useEffect(() => {
-    getScienceCategoryData();
-    getFictionCategoryData();
-    getEngineeringCategoryData();
-    getEconomicsCategoryData();
-    getMedicalCategoryData();
-    getPhilosophyCategoryData();
+    // getScienceCategoryData();
+    // getFictionCategoryData();
+    // getEngineeringCategoryData();
+    // getEconomicsCategoryData();
+    // getMedicalCategoryData();
+    // getPhilosophyCategoryData();
   }, []);
 
 
   return (
-    <Container>
+    <>
+      <Container>
 
-      <Categories />
+        <Categories />
 
-      <CategoryHeadWraper>
-        <h2>Science</h2>
-      </CategoryHeadWraper>
-      <CarouselContainer
-        id="science"
-        bookData={scienceCategoryData}
-      />
+        <CategoryHeadWraper>
+          <h2>Science</h2>
+        </CategoryHeadWraper>
+        <CarouselContainer
+          id="science"
+          bookData={scienceCategoryData}
+        />
 
-      <CategoryHeadWraper>
-        <h2>Fiction</h2>
-      </CategoryHeadWraper>
-      <CarouselContainer
-        id="fiction"
-        bookData={fictionCategoryData}
-      />
+        <CategoryHeadWraper>
+          <h2>Fiction</h2>
+        </CategoryHeadWraper>
+        <CarouselContainer
+          id="fiction"
+          bookData={fictionCategoryData}
+        />
 
-      <CategoryHeadWraper>
-        <h2>Philosophy</h2>
-      </CategoryHeadWraper>
-      <CarouselContainer
-        id="philosophy"
-        bookData={philosophyCategoryData}
-      />
+        <CategoryHeadWraper>
+          <h2>Philosophy</h2>
+        </CategoryHeadWraper>
+        <CarouselContainer
+          id="philosophy"
+          bookData={philosophyCategoryData}
+        />
 
-      <CategoryHeadWraper>
-        <h2>Engineering</h2>
-      </CategoryHeadWraper>
-      <CarouselContainer
-        id="engineering"
-        bookData={engineeringCategoryData}
-      />
+        <CategoryHeadWraper>
+          <h2>Engineering</h2>
+        </CategoryHeadWraper>
+        <CarouselContainer
+          id="engineering"
+          bookData={engineeringCategoryData}
+        />
 
-      <CategoryHeadWraper>
-        <h2>Economics</h2>
-      </CategoryHeadWraper>
-      <CarouselContainer
-        id="economics"
-        bookData={economicsCategoryData}
-      />
+        <CategoryHeadWraper>
+          <h2>Economics</h2>
+        </CategoryHeadWraper>
+        <CarouselContainer
+          id="economics"
+          bookData={economicsCategoryData}
+        />
 
-      <CategoryHeadWraper>
-        <h2>Medical</h2>
-      </CategoryHeadWraper>
-      <CarouselContainer
-        id="medical"
-        bookData={medicalCategoryData}
-      />
+        <CategoryHeadWraper>
+          <h2>Medical</h2>
+        </CategoryHeadWraper>
+        <CarouselContainer
+          id="medical"
+          bookData={medicalCategoryData}
+        />
 
-    </Container>
+      </Container>
+      <FooterSection />
+    </>
   );
 };

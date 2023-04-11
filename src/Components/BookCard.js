@@ -36,6 +36,11 @@ transform: translateX(-50%);
 background: url(${props => props.imgLink});
 background-repeat: no-repeat;
 background-size:cover;
+
+@media (max-width:520px){
+width: 140px;
+height: 190px;
+}
 `;
 
 const BookTitle = styled.h4`

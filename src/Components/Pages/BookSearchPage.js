@@ -1,12 +1,12 @@
-import { Container } from "@mui/system";
 import styled from "styled-components";
 import SearchIcon from '@mui/icons-material/Search';
-import { ColumnFlexContainer, RowFlexContainer } from "../Styles/GlobalStyle";
+import { ColumnFlexContainer, Container, RowFlexContainer } from "../Styles/GlobalStyle";
 import BookCard from "../BookCard";
 import { Button } from "@mui/material";
 import { useState } from "react";
-import Axios  from "axios";
+import Axios from "axios";
 import { API_KEY } from "../../App";
+import { FooterSection } from "../FooterSection";
 
 
 const SearchPageContainer = styled(RowFlexContainer)`
@@ -28,7 +28,10 @@ background-color: white;
 top:86px;
 z-index: 8;
 
-
+@media(max-width:520px){
+position: sticky;
+top:52px;
+}
 
 & input {
     height: 20px;
@@ -75,6 +78,10 @@ right: 8%;
     left:50%;
     transform: translateX(-50%);
 }
+
+@media(max-width:520px){
+    display: none;
+}
 `;
 
 const FilterHead = styled.div`
@@ -118,7 +125,7 @@ export const BookSearchPage = () => {
 
     let searchedBook = "";
 
-    const HandleSearchClick = async() => {
+    const HandleSearchClick = async () => {
         await Axios.get(`https://www.googleapis.com/books/v1/volumes?q=${searchedBook}&filter=paid-ebooks&maxResults=20&key=AIzaSyDnjxV0J2xUBLBAejecvQwUrxKZSDWWbfE`)
             .then((response) => {
                 console.log(response.data);
@@ -129,106 +136,110 @@ export const BookSearchPage = () => {
                 alert("Sorry...\nUnable to fetch data from SERVER");
             });
 
-    }
+    };
 
     const handlePressEnter = async (e) => {
-        if (e.key === "Enter"){
+        if (e.key === "Enter") {
             await Axios.get(`https://www.googleapis.com/books/v1/volumes?q=${searchedBook}&filter=paid-ebooks&maxResults=20&key=${API_KEY}`)
-            .then((response) => {
-                // console.log(response.data);
-                setSearchResult(response.data.items);
+                .then((response) => {
+                    // console.log(response.data);
+                    setSearchResult(response.data.items);
 
-            }).catch((error) => {
-                console.log(error);
-                alert("Sorry...\nUnable to fetch data from SERVER");
-            });
-        }    
-    }
+                }).catch((error) => {
+                    console.log(error);
+                    alert("Sorry...\nUnable to fetch data from SERVER");
+                });
+        }
+    };
 
     return (
-        <Container>
-            <SearchInput>
-                <input 
-                    type="text" 
-                    placeholder="Search for book title, author, subject..." 
-                    onChange={(e) => searchedBook = e.target.value}
-                    onKeyDown={handlePressEnter} 
-                />
-                <div onClick={HandleSearchClick}>
-                    <SearchIcon />
-                </div>
-            </SearchInput>
-            {
-                (searchResult.length < 1) &&
+        <>
+            <Container>
+                <SearchInput>
+                    <input
+                        type="text"
+                        placeholder="Search for book title, author, subject..."
+                        onChange={(e) => searchedBook = e.target.value}
+                        onKeyDown={handlePressEnter}
+                    />
+                    <div onClick={HandleSearchClick}>
+                        <SearchIcon />
+                    </div>
+                </SearchInput>
+                {
+                    (searchResult.length < 1) &&
 
-                <NoBookMsg>
-                    <h2>No books to display...</h2>
-                    <h2>Search for books to show results.</h2>
-                </NoBookMsg>
-            }
+                    <NoBookMsg>
+                        <h2>No books to display...</h2>
+                        <h2>Search for books to show results.</h2>
+                    </NoBookMsg>
+                }
 
-            <SearchPageContainer>
-                <LeftSectionConatiner>
+                <SearchPageContainer>
+                    <LeftSectionConatiner>
 
-                    {
-                        searchResult.map( (resultItem) => {
+                        {
+                            searchResult.map((resultItem) => {
 
-                            if (resultItem.volumeInfo.imageLinks.smallThumbnail){
+                                if (resultItem.volumeInfo.imageLinks.smallThumbnail) {
 
-                                let eachBookData = {
-                                    id: resultItem.id,
-                                    bookName: resultItem.volumeInfo.title,
-                                    cost: resultItem.saleInfo.listPrice?.amount,
-                                    bookImage: resultItem.volumeInfo.imageLinks.smallThumbnail,
-                                    author: resultItem.volumeInfo.authors[0],
-                                    description: resultItem.volumeInfo.description,
-                                    pageCount: resultItem.volumeInfo.pageCount,
-                                };
+                                    let eachBookData = {
+                                        id: resultItem.id,
+                                        bookName: resultItem.volumeInfo.title,
+                                        cost: resultItem.saleInfo.listPrice?.amount,
+                                        bookImage: resultItem.volumeInfo.imageLinks.smallThumbnail,
+                                        author: resultItem.volumeInfo.authors[0],
+                                        description: resultItem.volumeInfo.description,
+                                        pageCount: resultItem.volumeInfo.pageCount,
+                                    };
 
-                                return ( 
-                                    <BookCard 
-                                         key={eachBookData.id}
-                                         bookData = {eachBookData}/>
-                                );
+                                    return (
+                                        <BookCard
+                                            key={eachBookData.id}
+                                            bookData={eachBookData} />
+                                    );
+                                }
+
                             }
-
+                            )
                         }
-                        )
-                    }
 
-                </LeftSectionConatiner>
-                <RightSectionConatiner>
-                    <FilterHead>
-                        <h4>Search with filters</h4>
-                    </FilterHead>
-                    <FilterCheckBox>
-                        <CheckBoxContainer>
-                            <input type="checkbox" name="E-Book" />
-                            <label for="E-Book" >E-Book</label>
-                        </CheckBoxContainer>
-                        <CheckBoxContainer>
-                            <input type="checkbox" name="E-Book" />
-                            <label for="E-Book" >Free E-Book</label>
-                        </CheckBoxContainer>
-                        <CheckBoxContainer>
-                            <input type="checkbox" name="E-Book" />
-                            <label for="E-Book" >Paper Back</label>
-                        </CheckBoxContainer>
-                        <CheckBoxContainer>
-                            <input type="checkbox" name="E-Book" />
-                            <label for="E-Book" >New arrivals</label>
-                        </CheckBoxContainer>
-                        <CheckBoxContainer>
-                            <input type="checkbox" name="E-Book" />
-                            <label for="E-Book" >Limited Edition</label>
-                        </CheckBoxContainer>
-                    </FilterCheckBox>
-                    <Button 
-                        variant="contained" 
-                        style={{ fontSize: "0.6rem", backgroundColor: "#ff8f24" }} 
-                        onClick={()=> alert("Filter feature will be implemented soon!")}> Apply Filter </Button>
-                </RightSectionConatiner>
-            </SearchPageContainer>
-        </Container>
+                    </LeftSectionConatiner>
+                    <RightSectionConatiner>
+                        <FilterHead>
+                            <h4>Search with filters</h4>
+                        </FilterHead>
+                        <FilterCheckBox>
+                            <CheckBoxContainer>
+                                <input type="checkbox" name="E-Book" />
+                                <label for="E-Book" >E-Book</label>
+                            </CheckBoxContainer>
+                            <CheckBoxContainer>
+                                <input type="checkbox" name="E-Book" />
+                                <label for="E-Book" >Free E-Book</label>
+                            </CheckBoxContainer>
+                            <CheckBoxContainer>
+                                <input type="checkbox" name="E-Book" />
+                                <label for="E-Book" >Paper Back</label>
+                            </CheckBoxContainer>
+                            <CheckBoxContainer>
+                                <input type="checkbox" name="E-Book" />
+                                <label for="E-Book" >New arrivals</label>
+                            </CheckBoxContainer>
+                            <CheckBoxContainer>
+                                <input type="checkbox" name="E-Book" />
+                                <label for="E-Book" >Limited Edition</label>
+                            </CheckBoxContainer>
+                        </FilterCheckBox>
+                        <Button
+                            variant="contained"
+                            style={{ fontSize: "0.6rem", backgroundColor: "#ff8f24" }}
+                            onClick={() => alert("Filter feature will be implemented soon!")}> Apply Filter </Button>
+                    </RightSectionConatiner>
+                </SearchPageContainer>
+            </Container>
+            <FooterSection />
+        </>
+
     );
 };

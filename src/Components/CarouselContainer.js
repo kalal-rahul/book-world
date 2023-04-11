@@ -84,7 +84,9 @@ const CarouselContainer = (props) => {
                 <ArrowBackIosNewIcon />
             </PrevBtn>
             <CardWrapper id={props.id}>
-                {(props.bookData.length < 1) && <h2 style={{marginInline:"auto"}}>Loading...</h2>}
+                {   //console.log(props.id + " " + props.bookData.length )
+                    ((props.bookData.length < 1) && <h2 style={{marginInline:"auto"}}>Loading...</h2>)
+                }
 
                 {
 

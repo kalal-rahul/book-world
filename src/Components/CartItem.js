@@ -30,6 +30,11 @@ margin-block: 10px;
 padding-block: 8px;
 box-shadow: 0 0 2.5px grey;
 border-radius: 5px;
+
+@media(max-width:520px) {
+    width: 250px;
+    height:180px;
+}
 `;
 
 
@@ -51,6 +56,10 @@ const ItemDetail = styled(RowFlexContainer)`
 width: 60%;
 margin-block:2px;
 /* border: 1px solid red; */
+
+@media(max-width:520px) {
+    width: 70%;
+}
 `;
 const ImageContainer = styled.div`
 width: 110px;
@@ -60,6 +69,11 @@ background-repeat: no-repeat;
 background-size:cover;
 margin-inline: 5px;
 margin-block: 2.5px;
+
+@media(max-width:520px) {
+    width: 130px;
+    height: 130px;
+}
 `;
 
 const BookDetails = styled(ColumnFlexContainer)`
@@ -93,6 +107,10 @@ export const CartItem = (props) => {
     const [quantity, setQuantity] = useState(1);
     const { cart, setCart } = useContext(GlobalStateContext);
 
+    let singleItemCost = Math.trunc(props.bookData.cost);
+
+    const [eachItemCost, setEachItemCost] = useState(singleItemCost);
+
 
     const handleRemoveClick = () =>{
        const newCart =  cart.filter((eachBookData)=>{
@@ -124,9 +142,16 @@ export const CartItem = (props) => {
                             <h4>{props.bookData.author}</h4>
                         </BookDetails>
                     </ItemDetail>
-                    <Quantity quantity={quantity}  setQuantity = {setQuantity}/>
+                    <Quantity 
+                        quantity={quantity}  
+                        setQuantity = {setQuantity} 
+                        setQuantityChange = {props.setQuantityChange}
+                        singleItemCost = {singleItemCost}
+                        setEachItemCost = {setEachItemCost}
+                        quantityChange={props.quantityChange}
+                    />
                     <Price>
-                     <h3> <span style={{fontFamily:'Roboto, sans-serif'}}>&#8377; </span>{Math.trunc(props.bookData.cost * quantity)}</h3>
+                     <h3> <span style={{fontFamily:'Roboto, sans-serif'}}>&#8377; </span>{eachItemCost}</h3>
                     </Price>
                 </RowFlexContainer>
             </ItemContainer>
@@ -174,14 +199,26 @@ width: 20%;
 }
 `;
 
-const Quantity = ({quantity,setQuantity}) => {
+const Quantity = ({quantity,setQuantity, setQuantityChange, singleItemCost, setEachItemCost, quantityChange}) => {
 
     const handleAdd = () => {
         setQuantity((prevItem) => (prevItem < 10) ? prevItem + 1 : prevItem );
+        if (quantity < 10){
+            setEachItemCost((prev) => prev + singleItemCost);
+            setQuantityChange( (singleItemCost*0.000001) + singleItemCost);
+            console.log(quantityChange);
+        }
+            
     }
 
     const handleRemove = () => {
         setQuantity((prevItem) => (prevItem < 1) ? prevItem : prevItem - 1);
+        if (quantity > 0){
+            setEachItemCost((prev) => prev - singleItemCost);
+            setQuantityChange( -singleItemCost + (singleItemCost*0.000001));
+            console.log(quantityChange);
+        }
+            
     }
 
     return (

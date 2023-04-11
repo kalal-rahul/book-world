@@ -27,6 +27,15 @@ z-index: 7;
     transition: 0.2s ease-in-out;
 }
 
+@media (max-width:520px){
+width:90%;
+margin-inline: 6%;
+position: sticky;
+top:50px;
+z-index: 7;
+border-radius: 20%;
+padding-inline: 1%;
+}
 `;
 
 

@@ -4,7 +4,7 @@ import { Container } from "./Styles/GlobalStyle";
 
 
 const FooterContainer = styled.div`
-position: sticky;
+position: relative;
 bottom: 0px;
 width: 100%;
 `;
@@ -24,13 +24,13 @@ text-align: center;
 export const FooterSection = () => {
     return (
         <Container>
-            <MoveToTop />
             <FooterContainer>
+                <MoveToTop />
                 <CopyRight>
                     &#169;2023 BookWorld - All rights reserved.
                 </CopyRight>
             </FooterContainer>
         </Container>
-            
+
     );
 };

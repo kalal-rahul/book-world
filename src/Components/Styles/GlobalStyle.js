@@ -3,7 +3,10 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
 max-width: 1400px;
+/* min-height: 600px; */
 margin-inline: auto;
+/* border: 1px solid red; */
+position: relative;
 `;
 
 
@@ -11,7 +14,7 @@ export const LinkText = styled.div`
 font-family: 'Roboto', sans-serif;
 font-size: 1.2rem;
 /* border: 0.1px solid red; */
-min-width: 30%;
+min-width: 31%;
 & a {
     text-decoration: none;
     color: black;
