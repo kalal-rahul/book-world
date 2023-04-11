@@ -1,9 +1,13 @@
 import styled from "styled-components";
+import { MoveToTop } from "./MoveToTop";
 import { Container } from "./Styles/GlobalStyle";
 
 
 const FooterContainer = styled.div`
-`
+position: sticky;
+bottom: 0px;
+width: 100%;
+`;
 
 const CopyRight = styled.div`
 padding-inline: 10%;
@@ -13,14 +17,20 @@ color: black;
 font-size: 0.85rem;
 font-family: 'Roboto', sans-serif;
 text-align: center;
-`
+`;
 
 
 
-export const FooterSection = () =>{
-    return(
-        <CopyRight>
-            &#169;2023 BookWorld - All rights reserved.
-        </CopyRight>
-    )
-}
+export const FooterSection = () => {
+    return (
+        <Container>
+            <MoveToTop />
+            <FooterContainer>
+                <CopyRight>
+                    &#169;2023 BookWorld - All rights reserved.
+                </CopyRight>
+            </FooterContainer>
+        </Container>
+            
+    );
+};

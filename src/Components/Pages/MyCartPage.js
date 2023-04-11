@@ -1,6 +1,9 @@
+import { useContext } from "react";
 import styled from "styled-components";
+import { GlobalStateContext } from "../../App";
 import { CartItem } from "../CartItem";
 import { Container, RowFlexContainer } from "../Styles/GlobalStyle";
+import { NoBookMsg } from "./BookSearchPage";
 
 const RightSectionConatiner = styled.div`
 width: 25%;
@@ -116,20 +119,33 @@ padding-left: 5%;
 
 
 export const MyCartPage = () => {
+    const { cart, setCart } = useContext(GlobalStateContext);
+
     return (
         <Container>
             <CartPageContainer>
+                <h2 style={{ fontWeight: "400", paddingLeft: "20%" }}>Cart Items</h2>
+                {
+                    //TODO Length < 1
+                    (cart.length < 1) &&
+                    <NoBookMsg>
+                        <h2>No items to display...</h2>
+                        <h2>Add items to cart to show here.</h2>
+                    </NoBookMsg>
+                }
                 <LeftSectionContainer>
-                    <h2 style={{ fontWeight: "400" }}>Cart Items</h2>
 
-                    <CartItem />
-                    <CartItem />
-                    <CartItem />
-                    <CartItem />
-                    <CartItem />
-                    <CartItem />
-                    <CartItem />
-                    <CartItem />
+                    {
+                        cart.map((eachBookData) => {
+                            return (
+                                <CartItem
+                                    key={eachBookData.id}
+                                    bookData={eachBookData} />
+                            );
+                        }
+                        )
+                    }
+
                 </LeftSectionContainer>
 
                 <RightSectionConatiner>
@@ -178,7 +194,6 @@ export const MyCartPage = () => {
                         <CanceltBtn>Cancel Order</CanceltBtn>
                     </ButtonContainer>
                 </RightSectionConatiner>
-
             </CartPageContainer>
         </Container>
     );

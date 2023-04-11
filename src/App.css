@@ -24,8 +24,8 @@ h3{
 
 
 
-@media(max-width:500px){
+@media(max-width:520px){
   :root{
-    font-size: 45%;
+    font-size: 60%;
   }
 }

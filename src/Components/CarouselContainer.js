@@ -13,7 +13,7 @@ min-height: 300px;
 max-height:380px ;
 max-width: 80%;
 margin-left: 10%;
-`
+`;
 
 const CardWrapper = styled.div`
 max-width: 90%;
@@ -63,42 +63,64 @@ padding: 5px;
 `;
 
 
-const showNext = (id) => {
-    console.log(id)
-    const boxElem = document.getElementById(id);
-    boxElem.scrollLeft = boxElem.scrollLeft + 230;
-};
-
-const showPrev = (id) => {
-    console.log(id)
-    const boxElem = document.getElementById(id);
-    boxElem.scrollLeft = boxElem.scrollLeft - 230;
-};
-
 
 const CarouselContainer = (props) => {
+
+    const showNext = (id) => {
+        console.log(id);
+        const boxElem = document.getElementById(id);
+        boxElem.scrollLeft = boxElem.scrollLeft + 230;
+    };
+
+    const showPrev = (id) => {
+        console.log(id);
+        const boxElem = document.getElementById(id);
+        boxElem.scrollLeft = boxElem.scrollLeft - 230;
+    };
+
     return (
         <CarouselWrapper>
             <PrevBtn onClick={() => showPrev(props.id)} >
-            <ArrowBackIosNewIcon/>
+                <ArrowBackIosNewIcon />
             </PrevBtn>
             <CardWrapper id={props.id}>
-                <BookCard />
-                <BookCard />
-                <BookCard />
-                <BookCard />
-                <BookCard />
-                <BookCard />
-                <BookCard />
-                <BookCard />
-                <BookCard />
-                <BookCard />
-                <BookCard />
-                <BookCard />
-                <BookCard />
+                {(props.bookData.length < 1) && <h2 style={{marginInline:"auto"}}>Loading...</h2>}
+
+                {
+
+                    props.bookData.map((resultItem) => {
+
+                        const allItemsExist =
+                            resultItem.volumeInfo.imageLinks?.smallThumbnail !== undefined &&
+                            resultItem.volumeInfo?.authors !== undefined &&
+                            resultItem.volumeInfo?.title !== undefined &&
+                            resultItem?.id !== undefined &&
+                            resultItem.volumeInfo?.description !== undefined;
+
+                        // console.log("All items present " + allItemsExist);
+
+                        if (allItemsExist) {
+                            let eachBookData = {
+                                id: resultItem.id,
+                                bookName: resultItem.volumeInfo.title,
+                                cost: resultItem.saleInfo.listPrice?.amount,
+                                bookImage: resultItem.volumeInfo.imageLinks.smallThumbnail,
+                                author: resultItem.volumeInfo.authors[0],
+                                description: resultItem.volumeInfo.description,
+                                pageCount: resultItem.volumeInfo?.pageCount,
+                            };
+
+                            return (
+                                <BookCard
+                                    key={eachBookData.id}
+                                    bookData={eachBookData} />
+                            );
+                        }
+                    })
+                }
             </CardWrapper>
             <NextBtn onClick={() => showNext(props.id)}>
-            <ArrowForwardIosIcon/>
+                <ArrowForwardIosIcon />
             </NextBtn>
         </CarouselWrapper>
 

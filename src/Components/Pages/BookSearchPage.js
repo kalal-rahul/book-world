@@ -4,9 +4,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import { ColumnFlexContainer, RowFlexContainer } from "../Styles/GlobalStyle";
 import BookCard from "../BookCard";
 import { Button } from "@mui/material";
-import NorthIcon from '@mui/icons-material/North';
-import { MoveToTop } from "../MoveToTop";
-
+import { useState } from "react";
+import Axios  from "axios";
+import { API_KEY } from "../../App";
 
 
 const SearchPageContainer = styled(RowFlexContainer)`
@@ -27,7 +27,6 @@ background-color: white;
 /* border-radius: 80%; */
 top:86px;
 z-index: 8;
-
 
 
 
@@ -91,7 +90,7 @@ background-color: white;
     color: black;
     text-align: center;
 }
-`
+`;
 
 const FilterCheckBox = styled(ColumnFlexContainer)`
 height: 55%;
@@ -102,77 +101,134 @@ font-size: 0.9rem;
 margin-inline: 20%;
 margin-block: 5%;
 overflow: auto;
-`
+`;
 const CheckBoxContainer = styled(RowFlexContainer)`
 padding-left: 0;
-`
+`;
 
-
+export const NoBookMsg = styled.div`
+position: relative;
+margin: 10%;
+padding-left: 20%;
+`;
 
 export const BookSearchPage = () => {
+
+    const [searchResult, setSearchResult] = useState([]);
+
+    let searchedBook = "";
+
+    const HandleSearchClick = async() => {
+        await Axios.get(`https://www.googleapis.com/books/v1/volumes?q=${searchedBook}&filter=paid-ebooks&maxResults=20&key=AIzaSyDnjxV0J2xUBLBAejecvQwUrxKZSDWWbfE`)
+            .then((response) => {
+                console.log(response.data);
+                setSearchResult(response.data.items);
+
+            }).catch((error) => {
+                console.log(error);
+                alert("Sorry...\nUnable to fetch data from SERVER");
+            });
+
+    }
+
+    const handlePressEnter = async (e) => {
+        if (e.key === "Enter"){
+            await Axios.get(`https://www.googleapis.com/books/v1/volumes?q=${searchedBook}&filter=paid-ebooks&maxResults=20&key=${API_KEY}`)
+            .then((response) => {
+                // console.log(response.data);
+                setSearchResult(response.data.items);
+
+            }).catch((error) => {
+                console.log(error);
+                alert("Sorry...\nUnable to fetch data from SERVER");
+            });
+        }    
+    }
+
     return (
         <Container>
             <SearchInput>
-                <input type="text" placeholder="Search for book..." />
-                <div>
+                <input 
+                    type="text" 
+                    placeholder="Search for book title, author, subject..." 
+                    onChange={(e) => searchedBook = e.target.value}
+                    onKeyDown={handlePressEnter} 
+                />
+                <div onClick={HandleSearchClick}>
                     <SearchIcon />
                 </div>
             </SearchInput>
+            {
+                (searchResult.length < 1) &&
+
+                <NoBookMsg>
+                    <h2>No books to display...</h2>
+                    <h2>Search for books to show results.</h2>
+                </NoBookMsg>
+            }
+
             <SearchPageContainer>
                 <LeftSectionConatiner>
-                    {/* <h1 style={{ marginBlock: "0" }}>some</h1> */}
-                    <BookCard />
-                    <BookCard />
-                    <BookCard />
-                    <BookCard />
-                    <BookCard />
-                    <BookCard />
-                    <BookCard />
-                    <BookCard />
-                    <BookCard />
-                    <BookCard />
-                    <BookCard />
-                    <BookCard />
-                    <BookCard />
-                    <BookCard />
-                    <BookCard />
-                    <BookCard />
-                    <BookCard />
-                    <BookCard />
-                    <BookCard />
-                    <BookCard />
+
+                    {
+                        searchResult.map( (resultItem) => {
+
+                            if (resultItem.volumeInfo.imageLinks.smallThumbnail){
+
+                                let eachBookData = {
+                                    id: resultItem.id,
+                                    bookName: resultItem.volumeInfo.title,
+                                    cost: resultItem.saleInfo.listPrice?.amount,
+                                    bookImage: resultItem.volumeInfo.imageLinks.smallThumbnail,
+                                    author: resultItem.volumeInfo.authors[0],
+                                    description: resultItem.volumeInfo.description,
+                                    pageCount: resultItem.volumeInfo.pageCount,
+                                };
+
+                                return ( 
+                                    <BookCard 
+                                         key={eachBookData.id}
+                                         bookData = {eachBookData}/>
+                                );
+                            }
+
+                        }
+                        )
+                    }
+
                 </LeftSectionConatiner>
                 <RightSectionConatiner>
                     <FilterHead>
-                    <h4>Search with filters</h4>
+                        <h4>Search with filters</h4>
                     </FilterHead>
                     <FilterCheckBox>
-                    <CheckBoxContainer>
-                    <input type="checkbox" name="E-Book" />
-                        <label for ="E-Book" >Some Label</label>
-                    </CheckBoxContainer>
-                    <CheckBoxContainer>
-                    <input type="checkbox" name="E-Book" />
-                        <label for ="E-Book" >Some Label</label>
-                    </CheckBoxContainer>
-                    <CheckBoxContainer>
-                    <input type="checkbox" name="E-Book" />
-                        <label for ="E-Book" >Some Label</label>
-                    </CheckBoxContainer>
-                    <CheckBoxContainer>
-                    <input type="checkbox" name="E-Book" />
-                        <label for ="E-Book" >Some Label</label>
-                    </CheckBoxContainer>
-                    <CheckBoxContainer>
-                    <input type="checkbox" name="E-Book" />
-                        <label for ="E-Book" >Some Label</label>
-                    </CheckBoxContainer>
+                        <CheckBoxContainer>
+                            <input type="checkbox" name="E-Book" />
+                            <label for="E-Book" >E-Book</label>
+                        </CheckBoxContainer>
+                        <CheckBoxContainer>
+                            <input type="checkbox" name="E-Book" />
+                            <label for="E-Book" >Free E-Book</label>
+                        </CheckBoxContainer>
+                        <CheckBoxContainer>
+                            <input type="checkbox" name="E-Book" />
+                            <label for="E-Book" >Paper Back</label>
+                        </CheckBoxContainer>
+                        <CheckBoxContainer>
+                            <input type="checkbox" name="E-Book" />
+                            <label for="E-Book" >New arrivals</label>
+                        </CheckBoxContainer>
+                        <CheckBoxContainer>
+                            <input type="checkbox" name="E-Book" />
+                            <label for="E-Book" >Limited Edition</label>
+                        </CheckBoxContainer>
                     </FilterCheckBox>
-                    <Button variant="contained" style={{ fontSize: "0.6rem" , backgroundColor:"#ff8f24"}} > Apply Filter </Button>
+                    <Button 
+                        variant="contained" 
+                        style={{ fontSize: "0.6rem", backgroundColor: "#ff8f24" }} 
+                        onClick={()=> alert("Filter feature will be implemented soon!")}> Apply Filter </Button>
                 </RightSectionConatiner>
             </SearchPageContainer>
-            <MoveToTop/>
         </Container>
-
     );
 };

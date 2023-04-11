@@ -3,6 +3,9 @@ import { ColumnFlexContainer, RowFlexContainer } from "./Styles/GlobalStyle";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { useState } from "react";
+import { useContext } from "react";
+import { GlobalStateContext } from "../App";
 
 
 const ItemWrapper = styled(RowFlexContainer)`
@@ -52,7 +55,7 @@ margin-block:2px;
 const ImageContainer = styled.div`
 width: 110px;
 height: 160px;
-background: url(http://books.google.com/books/content?id=HQRuDwAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api);
+background: url(${props => props.imgLink});
 background-repeat: no-repeat;
 background-size:cover;
 margin-inline: 5px;
@@ -85,10 +88,23 @@ justify-content: center;
 width:20%;
 `;
 
-export const CartItem = () => {
+export const CartItem = (props) => {
+
+    const [quantity, setQuantity] = useState(1);
+    const { cart, setCart } = useContext(GlobalStateContext);
+
+
+    const handleRemoveClick = () =>{
+       const newCart =  cart.filter((eachBookData)=>{
+            return (props.bookData.id !== eachBookData.id); //return only those item which do not have same id
+        })
+
+        setCart(newCart);
+    }
+
     return (
         <ItemWrapper>
-            <ItemContainer>
+            <ItemContainer> 
                 <CartItemHead>
                     <div style={{ width: "50%" }}>
                         <h4>Item Details</h4>
@@ -97,25 +113,24 @@ export const CartItem = () => {
                         <h4>Quantity</h4>
                     </div>
                     <div style={{ width: "20%", textAlign: "right" }}>
-                        <h4>Price</h4>
+                        <h4>Price</h4> 
                     </div>
                 </CartItemHead>
                 <RowFlexContainer>
                     <ItemDetail>
-                        <ImageContainer />
+                        <ImageContainer imgLink = {props.bookData.bookImage} />
                         <BookDetails>
-                            <h3>Destined for you for you for you</h3>
-                            <h4>By Sarah</h4>
+                            <h3>{props.bookData.bookName}</h3>
+                            <h4>{props.bookData.author}</h4>
                         </BookDetails>
                     </ItemDetail>
-                    <Quantity />
+                    <Quantity quantity={quantity}  setQuantity = {setQuantity}/>
                     <Price>
-                        <h2>$ 783</h2>
+                     <h3> <span style={{fontFamily:'Roboto, sans-serif'}}>&#8377; </span>{Math.trunc(props.bookData.cost * quantity)}</h3>
                     </Price>
-
                 </RowFlexContainer>
             </ItemContainer>
-            <DeleteItem>
+            <DeleteItem onClick={handleRemoveClick}>
                 <DeleteForeverIcon style={{ fontSize: "2.5rem" }} color='disabled' />
             </DeleteItem>
         </ItemWrapper>
@@ -159,13 +174,22 @@ width: 20%;
 }
 `;
 
-const Quantity = () => {
+const Quantity = ({quantity,setQuantity}) => {
+
+    const handleAdd = () => {
+        setQuantity((prevItem) => (prevItem < 10) ? prevItem + 1 : prevItem );
+    }
+
+    const handleRemove = () => {
+        setQuantity((prevItem) => (prevItem < 1) ? prevItem : prevItem - 1);
+    }
+
     return (
         <QuatityConatiner>
             <ColumnFlexContainer style={{ gap: "10px" }}>
-                <button className="add"> <AddIcon /> </button>
-                <input type="text" value={20} />
-                <button className="remove"> <RemoveIcon /> </button>
+                <button className="add" onClick={handleAdd}> <AddIcon /> </button>
+                <input type="text" value={quantity} />
+                <button className="remove" onClick={handleRemove}> <RemoveIcon /> </button>
             </ColumnFlexContainer>
         </QuatityConatiner>
     );

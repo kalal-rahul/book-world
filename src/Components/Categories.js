@@ -35,7 +35,7 @@ export const Categories = () => {
         <ListContainer>
             <LinkScroll
                 activeClass="active"
-                to="best"
+                to="medical"
                 spy={true}
                 smooth={true}
                 hashSpy={true}
@@ -45,12 +45,12 @@ export const Categories = () => {
                 isDynamic={true}
                 spyThrottle={500}
             >
-                Best Sellers
+                Medical 
             </LinkScroll>
             <p>|</p>
             <LinkScroll
                 activeClass="active"
-                to="eng"
+                to="engineering"
                 spy={true}
                 smooth={true}
                 hashSpy={true}
@@ -95,7 +95,7 @@ export const Categories = () => {
             <p>|</p>
             <LinkScroll
                 activeClass="active"
-                to="new"
+                to="economics"
                 spy={true}
                 smooth={true}
                 hashSpy={true}
@@ -105,7 +105,7 @@ export const Categories = () => {
                 isDynamic={true}
                 spyThrottle={500}
             >
-                New Arrivals
+                Economics
             </LinkScroll>
             <p>|</p>
             <LinkScroll
@@ -119,13 +119,14 @@ export const Categories = () => {
                 delay={400}
                 isDynamic={true}
                 spyThrottle={500}
+                onClick = {()=> alert('Dummy Link Please try other!')}
             >
                 Award Winners
             </LinkScroll>
             <p>|</p>
             <LinkScroll
                 activeClass="active"
-                to="text"
+                to="philosophy"
                 spy={true}
                 smooth={true}
                 hashSpy={true}
@@ -135,7 +136,7 @@ export const Categories = () => {
                 isDynamic={true}
                 spyThrottle={500}
             >
-                Text Books
+                Philosophy
             </LinkScroll>
         </ListContainer>
     );

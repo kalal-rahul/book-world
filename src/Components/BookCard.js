@@ -2,14 +2,16 @@ import { Button } from "@mui/material";
 import styled from "styled-components";
 import { BookDetailsModal } from "./BookDetailsModal";
 import { PrimaryBtn, SecondaryBtn } from "./Styles/GlobalStyle";
+import { useContext } from 'react';
+import { GlobalStateContext } from "../App";
+import { useState } from "react";
+import { createContext } from "react";
 
 
 
 const CardContainer = styled.div`
 width: 200px;
 height: 270px;
-max-width: 200px;
-max-height:270px;
 box-sizing: border-box;
 border: 1px solid #a3a3a3;
 border-radius: 10px;
@@ -17,6 +19,7 @@ display: inline-block;
 margin: 20px;
 text-align: center;
 padding-block: 2%;
+flex-shrink: 0; //This is a flex child property if not set then the flex child item will resize undesirabely
 
 &:hover{
     cursor: pointer;
@@ -30,7 +33,7 @@ height: 160px;
 position: relative;
 left: 50%;
 transform: translateX(-50%);
-background: url(http://books.google.com/books/content?id=HQRuDwAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api);
+background: url(${props => props.imgLink});
 background-repeat: no-repeat;
 background-size:cover;
 `;
@@ -64,27 +67,42 @@ margin-left: 22%;
 
 
 
-const BookCard = () => {
-    const openDialog = () => {
-        const dialogBox = document.querySelector('dialog');
+const BookCard = (props) => {
+
+    const [buttonDisabled, setButtonDisabled] = useState(false);
+    const { cart, setCart } = useContext(GlobalStateContext);
+
+    const openDialog = (modalId) => {
+        const dialogBox = document.getElementById(modalId);
         dialogBox.showModal();
     };
 
 
+    const handleAddToCart = (bookData) => {
+        setButtonDisabled(true);
+        setCart([...cart, bookData]);
+    };
+
+
     return (
-        <CardContainer>
-            <BookDetailsModal/>
-            <ImageContainer/>
-            <BookTitle>
-                Destined for You Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus nostrum debitis non consequatur iure labore quod qui animi suscipit molestiae modi iusto, eius saepe harum dignissimos doloribus est eos repellat.
-            </BookTitle>
-            <Author>
-                By Sarah Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusamus facilis nobis nam quasi ducimus repudiandae quae deserunt dignissimos reiciendis. Aspernatur sint numquam aperiam eveniet libero necessitatibus, maxime quasi error alias?
-            </Author>
-            <Button variant="contained" style={{ fontSize: "0.6rem" }} >Add to cart</Button>
-            <Button variant="outlined" style={{ fontSize: "0.6rem", marginInline: "2%", fontWeight: 'bold' }}  onClick={openDialog}>View</Button>
-        </CardContainer>
+        <CartContext.Provider value={{buttonDisabled, setButtonDisabled}}>
+            <CardContainer>
+                <BookDetailsModal
+                    bookData={props.bookData}
+                />
+                <ImageContainer imgLink={props.bookData.bookImage} />
+                <BookTitle>
+                    {props.bookData.bookName}
+                </BookTitle>
+                <Author>
+                    By {props.bookData.author}
+                </Author>
+                <Button variant="contained" style={{ fontSize: "0.6rem" }} onClick={() => handleAddToCart(props.bookData)} disabled={buttonDisabled} >Add to cart</Button>
+                <Button variant="outlined" style={{ fontSize: "0.6rem", marginInline: "2%", fontWeight: 'bold' }} onClick={() => openDialog(props.bookData.id)}>View</Button>
+            </CardContainer>
+        </CartContext.Provider>
     );
 };
 
 export default BookCard;
+export const CartContext = createContext(); 

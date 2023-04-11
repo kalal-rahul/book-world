@@ -1,24 +1,20 @@
 import { Navbar } from './Components/Navbar';
 import { HashRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
-import { ColumnFlexContainer, Container, LinkText, RowFlexContainer } from './Components/Styles/GlobalStyle';
-import BookCard from './Components/BookCard';
-import CarouselContainer from './Components/CarouselContainer';
-import { Categories } from './Components/Categories';
-import NorthIcon from '@mui/icons-material/North';
-import * as Scroll from 'react-scroll';
-import styled from 'styled-components';
 import { FooterSection } from './Components/FooterSection';
-import { BookDetailsModal } from './Components/BookDetailsModal';
 import { BookSearchPage } from './Components/Pages/BookSearchPage';
 import { MyCartPage } from './Components/Pages/MyCartPage';
 import { HomePage } from './Components/Pages/HomePage';
+import { useState } from 'react';
+import { createContext } from 'react';
 
 function App() {
 
+  const [cart, setCart] = useState([]);
+
   return (
 
-    <>
+    <GlobalStateContext.Provider value={{cart, setCart}}>
       <Router>
       <Navbar />
         <Routes>
@@ -39,8 +35,10 @@ function App() {
         </Routes>
       </Router>
       <FooterSection />
-    </>
+    </GlobalStateContext.Provider>
   );
 }
 
 export default App;
+export const GlobalStateContext = createContext();
+export const  API_KEY = "AIzaSyDnjxV0J2xUBLBAejecvQwUrxKZSDWWbfE";

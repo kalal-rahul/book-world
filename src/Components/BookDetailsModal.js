@@ -2,6 +2,9 @@ import { Button } from "@mui/material";
 import styled from "styled-components";
 import { RowFlexContainer } from "./Styles/GlobalStyle";
 import CancelIcon from '@mui/icons-material/Cancel';
+import { useContext } from "react";
+import { CartContext } from "./BookCard";
+import { GlobalStateContext } from "../App";
 
 const ModalContainer = styled.dialog`
 box-sizing: border-box;
@@ -23,19 +26,21 @@ const ContentContainer = styled(RowFlexContainer)`
 height: 100%;
 width: 100%;
 /* border: 2px solid red; */
+
+& button{
+    position: absolute;
+    bottom: 3%;
+    left: 50%;
+    transform: translateX(-50%);
+}
 `;
 const LeftSectionContainer = styled.div`
 position: relative; //This is to place the book cover relatively
 width: 35%;
 height: 100%;
+overflow: auto;
 /* border: 2px solid yellow; */
 
-& button{
-    position: absolute;
-    bottom: 5%;
-    left: 50%;
-    transform: translateX(-50%);
-}
 
 h2{
     margin-bottom: 0;
@@ -43,6 +48,22 @@ h2{
 
 h3{
     margin-top: 0;
+}
+
+&::-webkit-scrollbar {
+    width: 5px;
+    background-color: #bb1717cc;
+}
+
+&::-webkit-scrollbar-track {
+    background-color: white;
+}
+
+&::-webkit-scrollbar-thumb {
+    background-color: #a7a7a7;
+    border-radius: 10px;
+    height: 50px;
+    /* You cannot alter the thumb height it comes by default */
 }
 
 `;
@@ -91,8 +112,10 @@ left: 50%;
 transform: translateX(-50%);
 height: 45%;
 width: 55%;
-border: 2px solid green;
-display: block;
+background: url(${props => props.imgLink});
+background-repeat: no-repeat;
+background-size:cover;
+border: 1px solid green;
 `;
 
 const BookTitleContainer = styled.div`
@@ -136,35 +159,45 @@ margin-top: 10px;
 & th{
     /* padding-inline: 10px; */
     padding-block: 2.5px;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     padding-left: 20px;
 }
 
 & td{
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     padding-left: 10px;
 }
-`
+`;
+
+export const BookDetailsModal = (props) => {
+
+    const {buttonDisabled, setButtonDisabled} = useContext(CartContext);
+    const { cart, setCart } = useContext(GlobalStateContext);
+
+    const closeDialog = (modalId) => {
+        const dialogBox = document.getElementById(modalId);
+        dialogBox.close();
+    };
+
+    const handleAddToCart = (bookData) => {
+        setButtonDisabled(true);
+        setCart([...cart, bookData]);
+    };
 
 
-export const BookDetailsModal = () => {
     return (
-        <ModalContainer >
+        <ModalContainer id={props.bookData.id}>
             <ContentContainer>
                 <LeftSectionContainer>
-                    <BookCoverContainer>
-                    </BookCoverContainer>
-                    {/* <BookTitleContainer>
-                        <h2 >Book Title</h2>
-                        <h3 >$ 785/-</h3>
-                    </BookTitleContainer> */}
+                    <BookCoverContainer imgLink = {props.bookData.bookImage}/>
                     <TableContainer>
-                        <tr>
+                       <tbody>
+                       <tr>
                             <th>
                                 Title
                             </th>
                             <td>
-                                Book Book Book Book 
+                               {props.bookData.bookName}
                             </td>
                         </tr>
                         <tr>
@@ -172,7 +205,7 @@ export const BookDetailsModal = () => {
                                 Author
                             </th>
                             <td>
-                                Sarah Khan
+                                {props.bookData.author}
                             </td>
                         </tr>
                         <tr>
@@ -180,15 +213,7 @@ export const BookDetailsModal = () => {
                                 Length
                             </th>
                             <td>
-                                119 pages
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                ISBN
-                            </th>
-                            <td>
-                                1023T01AI17
+                                {props.bookData.pageCount} pages
                             </td>
                         </tr>
                         <tr>
@@ -196,37 +221,24 @@ export const BookDetailsModal = () => {
                                 Price
                             </th>
                             <td>
-                                $ 789
+                                &#8377; {props.bookData.cost}
                             </td>
                         </tr>
+                       </tbody>
                     </TableContainer>
-                    <Button variant="contained" style={{ fontSize: "0.6rem" }} >Add to cart</Button>
                 </LeftSectionContainer>
 
                 <RightSectionContainer>
-                    <h3 style={{marginBottom:"0"}}>About the book</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur unde dignissimos odio aperiam modi enim a
-                        ssumenda quidem minima consequuntur velit. Suscipit minima debitis nisi cupiditate ex cumque aut sunt voluptates.
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur sit quam rerum ad, repudiandae atque
-                        itaque tenetur quae dolore iusto soluta ex error earum eaque accusantium. Earum modi animi eveniet?
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur unde dignissimos odio aperiam modi enim a
-                        ssumenda quidem minima consequuntur velit. Suscipit minima debitis nisi cupiditate ex cumque aut sunt voluptates.
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur sit quam rerum ad, repudiandae atque
-                        itaque tenetur quae dolore iusto soluta ex error earum eaque accusantium. Earum modi animi eveniet?Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur unde dignissimos odio aperiam modi enim a
-                        ssumenda quidem minima consequuntur velit. Suscipit minima debitis nisi cupiditate ex cumque aut sunt voluptates.
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur sit quam rerum ad, repudiandae atque
-                        itaque tenetur quae dolore iusto soluta ex error earum eaque accusantium. Earum modi animi eveniet?Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur unde dignissimos odio aperiam modi enim a
-                        ssumenda quidem minima consequuntur velit. Suscipit minima debitis nisi cupiditate ex cumque aut sunt voluptates.
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur sit quam rerum ad, repudiandae atque
-                        itaque tenetur quae dolore iusto soluta ex error earum eaque accusantium. Earum modi animi eveniet?Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur unde dignissimos odio aperiam modi enim a
-                        ssumenda quidem minima consequuntur velit. Suscipit minima debitis nisi cupiditate ex cumque aut sunt voluptates.
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur sit quam rerum ad, repudiandae atque
-                        itaque tenetur quae dolore iusto soluta ex error earum eaque accusantium. Earum modi animi eveniet?</p>
+                    <h3 style={{ marginBottom: "0" }}>About the book</h3>
+                    <p>{props.bookData.description}</p>
                 </RightSectionContainer>
-
+                <Button 
+                    variant="contained" style={{ fontSize: "0.6rem" }} 
+                    disabled = {buttonDisabled}
+                    onClick={() => handleAddToCart(props.bookData)}>Add to cart</Button>
             </ContentContainer>
             <CloseModal>
-                <CancelIcon onClick={() => { document.querySelector('dialog').close(); }}/>
+                <CancelIcon onClick={() => closeDialog(props.bookData.id) } />
             </CloseModal>
 
         </ModalContainer>
