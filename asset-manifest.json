@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/book-world/static/css/main.a938f629.css",
-    "main.js": "/book-world/static/js/main.8b1359ed.js",
+    "main.css": "/book-world/static/css/main.35d19798.css",
+    "main.js": "/book-world/static/js/main.d41d2f26.js",
     "static/media/BookWorldLogo.png": "/book-world/static/media/BookWorldLogo.3258ac8476c36352e2e1.png",
     "index.html": "/book-world/index.html",
-    "main.a938f629.css.map": "/book-world/static/css/main.a938f629.css.map",
-    "main.8b1359ed.js.map": "/book-world/static/js/main.8b1359ed.js.map"
+    "main.35d19798.css.map": "/book-world/static/css/main.35d19798.css.map",
+    "main.d41d2f26.js.map": "/book-world/static/js/main.d41d2f26.js.map"
   },
   "entrypoints": [
-    "static/css/main.a938f629.css",
-    "static/js/main.8b1359ed.js"
+    "static/css/main.35d19798.css",
+    "static/js/main.d41d2f26.js"
   ]
 }
