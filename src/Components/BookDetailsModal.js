@@ -106,6 +106,10 @@ overflow: auto;
     font-family: 'Roboto', sans-serif;
     font-size: 0.8rem;
     padding-inline: 5%;
+
+    @media (max-width:520px){
+        font-size: 0.9rem;
+    }
 }
 `;
 const BookCoverContainer = styled.div`
@@ -180,7 +184,7 @@ margin-top: 10px;
 
 export const BookDetailsModal = (props) => {
 
-    const {buttonDisabled, setButtonDisabled} = useContext(CartContext);
+    const { buttonDisabled, setButtonDisabled } = useContext(CartContext);
     const { cart, setCart } = useContext(GlobalStateContext);
 
     const closeDialog = (modalId) => {
@@ -198,42 +202,42 @@ export const BookDetailsModal = (props) => {
         <ModalContainer id={props.bookData.id}>
             <ContentContainer>
                 <LeftSectionContainer>
-                    <BookCoverContainer imgLink = {props.bookData.bookImage}/>
+                    <BookCoverContainer imgLink={props.bookData.bookImage} />
                     <TableContainer>
-                       <tbody>
-                       <tr>
-                            <th>
-                                Title
-                            </th>
-                            <td>
-                               {props.bookData.bookName}
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                Author
-                            </th>
-                            <td>
-                                {props.bookData.author}
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                Length
-                            </th>
-                            <td>
-                                {props.bookData.pageCount} pages
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                Price
-                            </th>
-                            <td>
-                                &#8377; {props.bookData.cost}
-                            </td>
-                        </tr>
-                       </tbody>
+                        <tbody>
+                            <tr>
+                                <th>
+                                    Title
+                                </th>
+                                <td>
+                                    {props.bookData.bookName}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    Author
+                                </th>
+                                <td>
+                                    {props.bookData.author}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    Length
+                                </th>
+                                <td>
+                                    {props.bookData.pageCount} pages
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    Price
+                                </th>
+                                <td>
+                                    &#8377; {props.bookData.cost}
+                                </td>
+                            </tr>
+                        </tbody>
                     </TableContainer>
                 </LeftSectionContainer>
 
@@ -241,13 +245,14 @@ export const BookDetailsModal = (props) => {
                     <h3 style={{ marginBottom: "0" }}>About the book</h3>
                     <p>{props.bookData.description}</p>
                 </RightSectionContainer>
-                <Button 
-                    variant="contained" style={{ fontSize: "0.6rem" }} 
-                    disabled = {buttonDisabled}
-                    onClick={() => handleAddToCart(props.bookData)}>Add to cart</Button>
+                <Button
+                    variant="contained" style={{ fontSize: "0.7rem" }}
+                    disabled={buttonDisabled}
+                    onClick={() => handleAddToCart(props.bookData)}
+                    className='card-btn'>Add to cart</Button>
             </ContentContainer>
             <CloseModal>
-                <CancelIcon onClick={() => closeDialog(props.bookData.id) } />
+                <CancelIcon onClick={() => closeDialog(props.bookData.id)} />
             </CloseModal>
 
         </ModalContainer>

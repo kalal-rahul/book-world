@@ -57,6 +57,10 @@ top:52px;
         cursor: pointer;
         color: #428bca;
     }
+
+    @media (max-width:520px){
+        top: 35%;
+    }
 }
 `;
 
@@ -181,8 +185,16 @@ export const BookSearchPage = () => {
                         {
                             searchResult.map((resultItem) => {
 
-                                if (resultItem.volumeInfo.imageLinks.smallThumbnail) {
+                                const allItemsExist =
+                                    resultItem.volumeInfo.imageLinks?.smallThumbnail !== undefined &&
+                                    resultItem.volumeInfo?.authors !== undefined &&
+                                    resultItem.volumeInfo?.title !== undefined &&
+                                    resultItem?.id !== undefined &&
+                                    resultItem.volumeInfo?.description !== undefined;
 
+                                // console.log("All items present " + allItemsExist);
+
+                                if (allItemsExist) {
                                     let eachBookData = {
                                         id: resultItem.id,
                                         bookName: resultItem.volumeInfo.title,
@@ -190,7 +202,8 @@ export const BookSearchPage = () => {
                                         bookImage: resultItem.volumeInfo.imageLinks.smallThumbnail,
                                         author: resultItem.volumeInfo.authors[0],
                                         description: resultItem.volumeInfo.description,
-                                        pageCount: resultItem.volumeInfo.pageCount,
+                                        pageCount: resultItem.volumeInfo?.pageCount,
+                                        totalPrice: resultItem.saleInfo.listPrice?.amount
                                     };
 
                                     return (

@@ -13,6 +13,10 @@ min-height: 300px;
 max-height:380px ;
 max-width: 80%;
 margin-left: 10%;
+
+@media(max-width:520px){
+    margin-left: 0px;
+}
 `;
 
 const CardWrapper = styled.div`
@@ -26,6 +30,12 @@ scroll-behavior: smooth;
 border-block: 1px solid #d1d1d1;
 border-radius: 10%;
 box-shadow: 0 0 10px grey;
+
+@media(max-width:520px){
+    overflow: auto;
+    max-width: none;
+    margin: none;
+}
 `;
 
 const PrevBtn = styled.button`
@@ -85,7 +95,7 @@ const CarouselContainer = (props) => {
             </PrevBtn>
             <CardWrapper id={props.id}>
                 {   //console.log(props.id + " " + props.bookData.length )
-                    ((props.bookData.length < 1) && <h2 style={{marginInline:"auto"}}>Loading...</h2>)
+                    ((props.bookData.length < 1) && <h2 style={{ marginInline: "auto" }}>Loading...</h2>)
                 }
 
                 {
@@ -110,6 +120,7 @@ const CarouselContainer = (props) => {
                                 author: resultItem.volumeInfo.authors[0],
                                 description: resultItem.volumeInfo.description,
                                 pageCount: resultItem.volumeInfo?.pageCount,
+                                totalPrice: resultItem.saleInfo.listPrice?.amount
                             };
 
                             return (

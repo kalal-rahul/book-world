@@ -90,7 +90,7 @@ const BookCard = (props) => {
 
 
     return (
-        <CartContext.Provider value={{buttonDisabled, setButtonDisabled}}>
+        <CartContext.Provider value={{ buttonDisabled, setButtonDisabled }}>
             <CardContainer>
                 <BookDetailsModal
                     bookData={props.bookData}
@@ -102,8 +102,17 @@ const BookCard = (props) => {
                 <Author>
                     By {props.bookData.author}
                 </Author>
-                <Button variant="contained" style={{ fontSize: "0.6rem" }} onClick={() => handleAddToCart(props.bookData)} disabled={buttonDisabled} >Add to cart</Button>
-                <Button variant="outlined" style={{ fontSize: "0.6rem", marginInline: "2%", fontWeight: 'bold' }} onClick={() => openDialog(props.bookData.id)}>View</Button>
+                <Button
+                    variant="contained"
+                    onClick={() => handleAddToCart(props.bookData)}
+                    disabled={buttonDisabled}
+                    style={{ fontSize: '0.7rem' }}
+                >Add to cart</Button>
+
+                <Button
+                    variant="outlined" style={{ fontSize: '0.7rem', marginInline: "2%", fontWeight: 'bold' }}
+                    onClick={() => openDialog(props.bookData.id)}
+                >View</Button>
             </CardContainer>
         </CartContext.Provider>
     );

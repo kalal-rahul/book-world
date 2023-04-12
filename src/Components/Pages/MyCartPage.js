@@ -182,34 +182,20 @@ export const MyCartPage = () => {
 
         cart.map((eachBookData) => {
             // console.log(eachBookData.cost);
-            total += eachBookData.cost;
+            total += eachBookData.totalPrice;
         });
 
         total = Math.trunc(total);
         disc = Math.trunc(total * 0.10);
         totalAmt = Math.trunc(total - disc);
-        console.log("tc " + total + " disc " + disc + " totalAmt " + totalAmt);
+        // console.log("tc " + total + " disc " + disc + " totalAmt " + totalAmt);
         setTotalCost(total);
         setDiscount(disc);
         setAmtPay(totalAmt);
 
-    }, [cart]); //This is used for the first time when cart is added.
+    }, [cart, quantityChange]); //The logic placed in the above code block will be executed when ever there is change in these states
 
-    useEffect(() => {
-        // alert("Calculating Quantity");
 
-        //This condition is to avoid computation for the first time when item is added to cart 
-        if (quantityChange !== 0) {
-            let total = Math.trunc(totalCost + quantityChange);
-            let disc = Math.trunc(total * 0.10);
-            let totalAmt = Math.trunc(total - disc);
-            console.log("tc " + total + " disc " + disc + " totalAmt " + totalAmt);
-            setTotalCost(total);
-            setDiscount(disc);
-            setAmtPay(totalAmt);
-        }
-
-    }, [quantityChange]); // Whenever there is change in quantity of individual item
 
     return (
         <>
@@ -225,7 +211,7 @@ export const MyCartPage = () => {
                         </NoBookMsg>
                     }
                     <LeftSectionContainer>
-
+                        {/* eachBookData.cost */}
                         {
                             cart.map((eachBookData) => {
                                 return (
@@ -297,53 +283,53 @@ export const MyCartPage = () => {
                 {
                     (cart.length >= 1) &&
                     <RightSectionConatinerMobile>
-                    <OrderSummaryHead>
-                        <h4>ORDER SUMMARY</h4>
-                    </OrderSummaryHead>
-                    <PriceContainer>
-                        <table>
-                            <tr>
-                                <th>
-                                    Total Cost
-                                </th>
-                                <td>
-                                    &#8377; {totalCost}
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>
-                                    Discount
-                                </th>
-                                <td>
-                                    &#8377; {discount}
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>
-                                    Shipping
-                                </th>
-                                <td>
-                                    Free!
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>
-                                    AMOUNT PAYABLE
-                                </th>
-                                <td>
-                                    &#8377; {amtPay}
-                                </td>
-                            </tr>
-                        </table>
-                    </PriceContainer>
+                        <OrderSummaryHead>
+                            <h4>ORDER SUMMARY</h4>
+                        </OrderSummaryHead>
+                        <PriceContainer>
+                            <table>
+                                <tr>
+                                    <th>
+                                        Total Cost
+                                    </th>
+                                    <td>
+                                        &#8377; {totalCost}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Discount
+                                    </th>
+                                    <td>
+                                        &#8377; {discount}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Shipping
+                                    </th>
+                                    <td>
+                                        Free!
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        AMOUNT PAYABLE
+                                    </th>
+                                    <td>
+                                        &#8377; {amtPay}
+                                    </td>
+                                </tr>
+                            </table>
+                        </PriceContainer>
 
-                    <ButtonContainer>
-                        <PaymentBtn onClick={handleMakePayment}>Make Payment</PaymentBtn>
-                        <CanceltBtn onClick={handleCancelOrder}>Cancel Order</CanceltBtn>
-                    </ButtonContainer>
-                </RightSectionConatinerMobile>
+                        <ButtonContainer>
+                            <PaymentBtn onClick={handleMakePayment}>Make Payment</PaymentBtn>
+                            <CanceltBtn onClick={handleCancelOrder}>Cancel Order</CanceltBtn>
+                        </ButtonContainer>
+                    </RightSectionConatinerMobile>
                 }
-                
+
             </Container>
             <FooterSection />
         </>

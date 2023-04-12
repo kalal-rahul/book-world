@@ -66,7 +66,7 @@ border-radius: 10%;
 
 export const Navbar = (props) => {
 
-    const {cart} = useContext(GlobalStateContext);
+    const { cart } = useContext(GlobalStateContext);
 
     return (
         <StickyHead>
@@ -82,7 +82,7 @@ export const Navbar = (props) => {
                         <SearchBookLink />
                     </LinkText>
                     <LinkText>
-                        <MyCartLink itemCount = {(cart.length > 0) ? cart.length:null} />
+                        <MyCartLink itemCount={(cart.length > 0) ? cart.length : null} />
                     </LinkText>
                 </NavBarLinkContainer>
             </NavBarContainer>

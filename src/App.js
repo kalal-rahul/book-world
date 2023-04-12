@@ -14,9 +14,9 @@ function App() {
 
   return (
 
-    <GlobalStateContext.Provider value={{cart, setCart}}>
+    <GlobalStateContext.Provider value={{ cart, setCart }}>
       <Router>
-      <Navbar />
+        <Navbar />
         <Routes>
           <Route
             path='/bookSearch'
@@ -40,4 +40,4 @@ function App() {
 
 export default App;
 export const GlobalStateContext = createContext();
-export const  API_KEY = "AIzaSyDnjxV0J2xUBLBAejecvQwUrxKZSDWWbfE";
+export const API_KEY = "AIzaSyDnjxV0J2xUBLBAejecvQwUrxKZSDWWbfE";

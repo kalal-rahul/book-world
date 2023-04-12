@@ -17,7 +17,7 @@ export default function MyCartLink(props) {
     return (
         <Link to="/myCart">
             <CartLinkContainer>
-                <Badge  badgeContent={props.itemCount} color="error">
+                <Badge badgeContent={props.itemCount} color="error">
                     <ShoppingCartIcon color="action" />
                 </Badge>
                 My Cart

@@ -11,6 +11,11 @@ import { GlobalStateContext } from "../App";
 const ItemWrapper = styled(RowFlexContainer)`
 width: 90%;
 gap: 5px;
+
+@media(max-width:520px) {
+    width: 100%;
+}
+
 `;
 
 const DeleteItem = styled.div`
@@ -32,7 +37,7 @@ box-shadow: 0 0 2.5px grey;
 border-radius: 5px;
 
 @media(max-width:520px) {
-    width: 250px;
+    min-width: 280px;
     height:180px;
 }
 `;
@@ -107,22 +112,18 @@ export const CartItem = (props) => {
     const [quantity, setQuantity] = useState(1);
     const { cart, setCart } = useContext(GlobalStateContext);
 
-    let singleItemCost = Math.trunc(props.bookData.cost);
 
-    const [eachItemCost, setEachItemCost] = useState(singleItemCost);
-
-
-    const handleRemoveClick = () =>{
-       const newCart =  cart.filter((eachBookData)=>{
+    const handleRemoveClick = () => {
+        const newCart = cart.filter((eachBookData) => {
             return (props.bookData.id !== eachBookData.id); //return only those item which do not have same id
-        })
+        });
 
         setCart(newCart);
-    }
+    };
 
     return (
         <ItemWrapper>
-            <ItemContainer> 
+            <ItemContainer>
                 <CartItemHead>
                     <div style={{ width: "50%" }}>
                         <h4>Item Details</h4>
@@ -131,27 +132,25 @@ export const CartItem = (props) => {
                         <h4>Quantity</h4>
                     </div>
                     <div style={{ width: "20%", textAlign: "right" }}>
-                        <h4>Price</h4> 
+                        <h4>Price</h4>
                     </div>
                 </CartItemHead>
                 <RowFlexContainer>
                     <ItemDetail>
-                        <ImageContainer imgLink = {props.bookData.bookImage} />
+                        <ImageContainer imgLink={props.bookData.bookImage} />
                         <BookDetails>
                             <h3>{props.bookData.bookName}</h3>
                             <h4>{props.bookData.author}</h4>
                         </BookDetails>
                     </ItemDetail>
-                    <Quantity 
-                        quantity={quantity}  
-                        setQuantity = {setQuantity} 
-                        setQuantityChange = {props.setQuantityChange}
-                        singleItemCost = {singleItemCost}
-                        setEachItemCost = {setEachItemCost}
-                        quantityChange={props.quantityChange}
+                    <Quantity
+                        itemId={props.bookData.id}
+                        quantity={quantity}
+                        setQuantity={setQuantity}
+                        setQuantityChange={props.setQuantityChange}
                     />
                     <Price>
-                     <h3> <span style={{fontFamily:'Roboto, sans-serif'}}>&#8377; </span>{eachItemCost}</h3>
+                        <h3> <span style={{ fontFamily: 'Roboto, sans-serif' }}>&#8377; </span>{Math.trunc(props.bookData.totalPrice)}</h3>
                     </Price>
                 </RowFlexContainer>
             </ItemContainer>
@@ -191,7 +190,7 @@ width: 20%;
 }
 
 .add{
-    background-color: #00fd00c4;
+    background-color: #34c734;
 }
 
 .remove{
@@ -199,27 +198,59 @@ width: 20%;
 }
 `;
 
-const Quantity = ({quantity,setQuantity, setQuantityChange, singleItemCost, setEachItemCost, quantityChange}) => {
+const Quantity = ({ quantity, setQuantity, setQuantityChange, itemId }) => {
+
+    const { cart, setCart } = useContext(GlobalStateContext);
 
     const handleAdd = () => {
-        setQuantity((prevItem) => (prevItem < 10) ? prevItem + 1 : prevItem );
-        if (quantity < 10){
-            setEachItemCost((prev) => prev + singleItemCost);
-            setQuantityChange( (singleItemCost*0.000001) + singleItemCost);
-            console.log(quantityChange);
+        setQuantity((prevItem) => (prevItem < 10) ? prevItem + 1 : prevItem);
+        if (quantity < 10) {
+            setQuantityChange((prev) => prev + 1);
+
+            //Strangely this is changing the data in OLD cart as well
+            let newCart = cart.map((eachBookData) => {
+
+                if (eachBookData.id === itemId) {
+                    let newBookData = eachBookData;
+                    newBookData.totalPrice = eachBookData.cost * (quantity + 1);
+                    return newBookData;
+                }
+                else {
+                    return eachBookData;
+                }
+
+            });
+
+            setCart(newCart);
+            // console.log(cart);
         }
-            
-    }
+
+    };
 
     const handleRemove = () => {
         setQuantity((prevItem) => (prevItem < 1) ? prevItem : prevItem - 1);
-        if (quantity > 0){
-            setEachItemCost((prev) => prev - singleItemCost);
-            setQuantityChange( -singleItemCost + (singleItemCost*0.000001));
-            console.log(quantityChange);
+        if (quantity > 0) {
+            setQuantityChange((prev) => prev + 1);
+
+            //Strangely this is changing the data in OLD cart as well
+            let newCart = cart.map((eachBookData) => {
+
+                if (eachBookData.id === itemId) {
+                    let newBookData = eachBookData;
+                    newBookData.totalPrice = eachBookData.cost * (quantity - 1);
+                    return newBookData;
+                }
+                else {
+                    return eachBookData;
+                }
+
+            });
+
+            setCart(newCart);
+            // console.log(cart);
         }
-            
-    }
+
+    };
 
     return (
         <QuatityConatiner>

@@ -24,7 +24,7 @@ justify-content: flex-start;
 
 export const HomePage = () => {
 
-  const [scienceCategoryData, setScienceCategoryData] = useState(scienceCategoryItems);
+  const [scienceCategoryData, setScienceCategoryData] = useState([]);
   const [fictionCategoryData, setFictionCategoryData] = useState(fictionCategoryItems);
   const [engineeringCategoryData, setEngineeringCategoryData] = useState(engineeringCategoryItems);
   const [economicsCategoryData, setEconomicsCategoryData] = useState(economicsCategoryItems);
@@ -112,7 +112,7 @@ export const HomePage = () => {
 
 
   useEffect(() => {
-    // getScienceCategoryData();
+    getScienceCategoryData();
     // getFictionCategoryData();
     // getEngineeringCategoryData();
     // getEconomicsCategoryData();

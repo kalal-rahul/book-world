@@ -14,7 +14,7 @@ export const LinkText = styled.div`
 font-family: 'Roboto', sans-serif;
 font-size: 1.2rem;
 /* border: 0.1px solid red; */
-min-width: 31%;
+min-width: 33%;
 & a {
     text-decoration: none;
     color: black;

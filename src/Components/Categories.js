@@ -54,7 +54,7 @@ export const Categories = () => {
                 isDynamic={true}
                 spyThrottle={500}
             >
-                Medical 
+                Medical
             </LinkScroll>
             <p>|</p>
             <LinkScroll
@@ -116,7 +116,7 @@ export const Categories = () => {
             >
                 Economics
             </LinkScroll>
-            <p>|</p>
+            <p className="no-disp">|</p>
             <LinkScroll
                 activeClass="active"
                 to="award"
@@ -128,7 +128,8 @@ export const Categories = () => {
                 delay={400}
                 isDynamic={true}
                 spyThrottle={500}
-                onClick = {()=> alert('Dummy Link Please try other!')}
+                onClick={() => alert('Dummy Link Please try other!')}
+                className="no-disp"
             >
                 Award Winners
             </LinkScroll>
